@@ -47,7 +47,7 @@ export class Ionic2PushApp {
     const pushObject: PushObject = this.push.init(options);
 
     pushObject.on('registration').subscribe((data: any) => {
-      console.log("device token ->", data.registrationId);
+      console.log("device token -> " + data.registrationId);
       //TODO - send device token to server
     });
 
