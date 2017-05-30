@@ -9,7 +9,6 @@ import {Ionic2PushApp} from "./app";
 import {HomePage} from "../pages/home/home";
 import {DetailsPage} from "../pages/details/details";
 
-
 @NgModule({
   declarations: [
     Ionic2PushApp,
@@ -29,10 +28,10 @@ import {DetailsPage} from "../pages/details/details";
     DetailsPage
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
     StatusBar,
     SplashScreen,
-    Push
+    Push,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {

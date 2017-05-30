@@ -30,25 +30,37 @@ export class Ionic2PushApp {
 
   initPushNotification() {
     if (!this.platform.is('cordova')) {
-      console.warn("Push notifications not initialized. Cordova is not available - Run in physical device");
+      alert("Notificações de envio não inicializadas. Cordova não está disponível - Executar em dispositivo físico");
       return;
     }
     const options: PushOptions = {
       android: {
-        senderID: "YOUR_SENDER_ID"
+        senderID: "896514799547",
+        icon: 'icon',
+        sound: true,
+        vibrate: true,
+        forceShow: true
       },
-      ios: {
-        alert: "true",
-        badge: false,
-        sound: "true"
-      },
+      ios: {},
       windows: {}
     };
     const pushObject: PushObject = this.push.init(options);
 
     pushObject.on('registration').subscribe((data: any) => {
-      console.log("device token -> " + data.registrationId);
-      //TODO - send device token to server
+      console.log("Token do dispositivo :: " + data.registrationId);
+
+      localStorage.setItem('device_token', data.registrationId);
+      //this.device_token = localStorage.getItem('device_token');
+
+        let alert = this.alertCtrl.create({
+          title: 'Token do dispositivo',
+          subTitle: data.registrationId,
+          buttons: ['OK']
+        });
+
+        alert.present();
+
+      //TODO - Enviar token de dispositivo para servidor
     });
 
     pushObject.on('notification').subscribe((data: any) => {
@@ -57,7 +69,7 @@ export class Ionic2PushApp {
       if (data.additionalData.foreground) {
         // if application open, show popup
         let confirmAlert = this.alertCtrl.create({
-          title: 'New Notification',
+          title: 'Nova Notificação',
           message: data.message,
           buttons: [{
             text: 'Ignore',
